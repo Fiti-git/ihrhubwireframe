@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  # React frontend service
+  frontend:
+    build: .
+    ports:
+      - "80:80"
+    volumes:
+      - ./src:/app/src
+    networks:
+      - iHRhub-network
+
+  # NGINX reverse proxy service
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "8080:80"
+    depends_on:
+      - frontend
+    networks:
+      - iHRhub-network
+
+networks:
+  iHRhub-network:
+    driver: bridge
