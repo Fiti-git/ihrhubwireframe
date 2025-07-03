@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-  # React frontend service
   frontend:
     build: .
     ports:
@@ -10,8 +9,11 @@ services:
       - ./src:/app/src
     networks:
       - iHRhub-network
+    deploy:
+      resources:
+        limits:
+          memory: 512M  # Limit the memory usage of the React app container to 512MB
 
-  # NGINX reverse proxy service
   nginx:
     image: nginx:latest
     volumes:
@@ -22,6 +24,10 @@ services:
       - frontend
     networks:
       - iHRhub-network
+    deploy:
+      resources:
+        limits:
+          memory: 512M  # Limit the memory usage of the NGINX container to 512MB
 
 networks:
   iHRhub-network:
